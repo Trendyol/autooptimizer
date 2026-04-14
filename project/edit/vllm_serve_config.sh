@@ -5,7 +5,7 @@
 # This script starts the vLLM server. The agent modifies the flags below
 # to optimize serving performance.
 #
-# Usage: bash project/edit/serve_config.sh
+# Usage: bash project/edit/vllm_serve_config.sh
 # ==========================================================================
 
 # Model (set by user in memory/overview.md — do NOT change)
