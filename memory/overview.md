@@ -6,6 +6,7 @@ Automated vLLM serving parameter optimization using LLM agents.
 
 ```
 MODEL=Qwen/Qwen3.5-27B-FP8
+FRAMEWORK=vllm
 ```
 
 **Do NOT change the model.** All experiments must use this exact model. The goal is to find the best vLLM serving parameters for this specific model on this specific hardware.
