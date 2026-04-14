@@ -1,3 +1,7 @@
+# Superpowers brainstorming artifacts
+.superpowers/
+docs/superpowers/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
