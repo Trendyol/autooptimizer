@@ -1,6 +1,6 @@
 # Autooptimizer Overview
 
-Automated vLLM serving parameter optimization using LLM agents.
+Automated LLM serving parameter optimization using LLM agents.
 
 ## Target Model
 
@@ -9,9 +9,13 @@ MODEL=Qwen/Qwen3.5-27B-FP8
 FRAMEWORK=vllm
 ```
 
-**Do NOT change the model.** All experiments must use this exact model. The goal is to find the best vLLM serving parameters for this specific model on this specific hardware.
+**Do NOT change the model.** All experiments must use this exact model. The goal is to find the best serving parameters for this specific model on this specific hardware.
+
+**FRAMEWORK** determines which serving framework to optimize. Supported values: `vllm`, `sglang`.
 
 ## Best Known Configuration
+
+### vLLM
 
 ```bash
 vllm serve Qwen/Qwen3.5-27B-FP8 --reasoning-parser qwen3 \
@@ -25,7 +29,15 @@ vllm serve Qwen/Qwen3.5-27B-FP8 --reasoning-parser qwen3 \
                           --gpu-memory-utilization 0.90
 ```
 
-> When the user provides a better configuration from previous experiments, it will be updated here.
+### SGLang
+
+```bash
+python -m sglang.launch_server --model-path Qwen/Qwen3.5-27B-FP8 \
+                               --mem-fraction-static 0.90 \
+                               --chunked-prefill-size 8192
+```
+
+> When a better configuration is found, update the section for the active framework.
 
 ## Goal
 
@@ -41,8 +53,10 @@ This rewards high token throughput while penalizing high end-to-end response lat
 
 | File | Purpose | Editable |
 |------|---------|----------|
-| `project/edit/serve_config.sh` | vLLM serve command with parameters | **Yes** |
+| `project/edit/vllm_serve_config.sh` | vLLM serve command with parameters | **Yes** (when FRAMEWORK=vllm) |
+| `project/edit/sglang_serve_config.sh` | SGLang serve command with parameters | **Yes** (when FRAMEWORK=sglang) |
 | `project/no_edit/benchmark.py` | Benchmark runner, scoring, server management | No |
+| `project/no_edit/adapters/` | Framework adapters (routing logic) | No |
 | `artifacts/hypothesis_backlog.tsv` | Prioritized experiment queue | Yes (untracked) |
 | `artifacts/results.tsv` | Experiment results log | Yes (untracked) |
 | `logs/<experiment>.log` | Per-experiment logs | Auto-generated (untracked) |

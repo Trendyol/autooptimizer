@@ -6,11 +6,11 @@ The experiment runs on a dedicated branch (e.g. `autooptimizer/apr11`).
 
 1. **Read hypothesis backlog**: Open `artifacts/hypothesis_backlog.tsv` and pick the **FIRST (topmost) row** with an empty `result` column. Do NOT skip rows.
 
-2. **Implement the hypothesis**: Modify `project/edit/serve_config.sh` with the new vLLM parameters.
+2. **Implement the hypothesis**: Modify the active framework's serve config (see `memory/rules.md` for which file to edit based on FRAMEWORK).
 
 3. **Git commit your changes** (REQUIRED before running):
    ```bash
-   git add project/edit/serve_config.sh
+   git add project/edit/
    git commit -m "experiment: <short description>"
    ```
    Save the commit hash: `COMMIT=$(git rev-parse --short HEAD)`
@@ -22,8 +22,9 @@ The experiment runs on a dedicated branch (e.g. `autooptimizer/apr11`).
 
 5. **Start the server** (background, logs saved):
    ```bash
-   bash project/edit/serve_config.sh > logs/$COMMIT-server.log 2>&1 &
+   bash project/edit/<framework>_serve_config.sh > logs/$COMMIT-server.log 2>&1 &
    ```
+   Use the correct serve config for the active FRAMEWORK (e.g. `vllm_serve_config.sh` or `sglang_serve_config.sh`).
 
 6. **Wait + benchmark + kill**:
    ```bash
@@ -67,7 +68,7 @@ experiment	score	memory_gb	status	description
 - `score`: e.g. 1234.56 (use 0.00 for crashes)
 - `memory_gb`: peak_gpu_memory_mb / 1024, round to .1f (use 0.0 for crashes)
 - `status`: `keep`, `discard`, or `crash`
-- `description`: the vLLM flags used + what changed
+- `description`: the flags used + what changed
 
 Example:
 ```
@@ -84,4 +85,4 @@ experiment	score	memory_gb	status	description
 
 **Crashes**: If easy fix (typo, invalid flag), fix and re-run. If fundamentally broken, log "crash" and move on.
 
-**NEVER STOP**: Once the loop begins, do NOT pause to ask the human. Continue *indefinitely* until manually stopped. If out of ideas, think harder — run `vllm serve --help`, re-read files, combine near-misses, try radical changes.
+**NEVER STOP**: Once the loop begins, do NOT pause to ask the human. Continue *indefinitely* until manually stopped. If out of ideas, think harder — run the framework's `--help`, re-read files, combine near-misses, try radical changes.

@@ -1,25 +1,32 @@
 # Experimentation Rules
 
-Each experiment starts a vLLM server, runs a fixed benchmark, then kills the server.
+Each experiment starts a server, runs a fixed benchmark, then kills the server.
+
+## Active Framework
+
+Read `FRAMEWORK` from `memory/overview.md` to determine which framework you are optimizing. Only edit the serve config for the active framework.
+
+| Framework | Serve Config | Strategy |
+|-----------|-------------|----------|
+| vllm | `project/edit/vllm_serve_config.sh` | `memory/search_strategy_vllm.md` |
+| sglang | `project/edit/sglang_serve_config.sh` | `memory/search_strategy_sglang.md` |
 
 ## What You CAN Do
 
-- Modify `project/edit/serve_config.sh` — this is the only file you edit
-- Use **ANY** vLLM serve flag — no restrictions on parameters
-- Try quantization methods (fp8, awq, gptq, bitsandbytes, marlin, etc.)
-- Try engine parameters (gpu-memory-utilization, max-num-seqs, max-num-batched-tokens, block-size, swap-space, etc.)
-- Try scheduler settings (enable-chunked-prefill, scheduler-delay-factor, num-scheduler-steps, etc.)
-- Try speculative decoding (speculative-model, num-speculative-tokens, etc.)
-- Try compilation flags, parallelism settings, kv-cache-dtype, anything
-- Discover new flags by running `vllm serve --help`
+- Modify the active framework's serve config in `project/edit/`
+- Use **ANY** flag supported by the active framework — no restrictions on parameters
+- Discover available flags by running the framework's serve command with `--help`:
+  - vLLM: `vllm serve --help`
+  - SGLang: `python -m sglang.launch_server --help`
 
 ## What You CANNOT Do
 
 - **Change the model** — always use the model specified in `memory/overview.md`
-- **Modify `project/no_edit/benchmark.py`** — it is read-only (contains the fixed benchmark and scoring function)
-- **Install new packages** or add dependencies (only use what's in `pyproject.toml`)
+- **Modify `project/no_edit/benchmark.py`** or anything in `project/no_edit/` — read-only
+- **Install new packages** or add dependencies
 - **Change the port** — always use `--port 8000` (benchmark.py expects this)
 - **Change the host** — always use `--host 127.0.0.1`
+- **Edit another framework's serve config** — only edit the active framework's script
 
 ## Scoring
 

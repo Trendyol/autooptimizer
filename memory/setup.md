@@ -7,20 +7,25 @@ To set up a new experiment, work with the user to:
 2. **Create the branch**: `git checkout -b autooptimizer/<tag>` from current master.
 
 3. **Read the memory md files for context**:
-   - `memory/overview.md` — target model, goal, best known config
+   - `memory/overview.md` — target model, framework, goal, best known config
    - `memory/experiment_loop.md` — experiment workflow
    - `memory/rules.md` — allowed and prohibited changes
-   - `memory/search_strategy.md` — hypothesis strategy
+   - Read the search strategy for the active FRAMEWORK:
+     - vLLM: `memory/search_strategy_vllm.md`
+     - SGLang: `memory/search_strategy_sglang.md`
 
    Also examine the fixed benchmark tool:
    - `project/no_edit/benchmark.py` — benchmark runner, scoring (read-only)
 
-   And the editable config:
-   - `project/edit/serve_config.sh` — the vLLM serve command you modify
+   And the editable config for the active FRAMEWORK:
+   - vLLM: `project/edit/vllm_serve_config.sh`
+   - SGLang: `project/edit/sglang_serve_config.sh`
 
 4. **Check GPU**: Run `nvidia-smi` to see what GPU(s) you have and how much VRAM is available.
 
-5. **Check vLLM flags**: Run `vllm serve --help` to see ALL available parameters. This is your playground.
+5. **Check framework flags**: Run the active framework's serve command with `--help` to see ALL available parameters:
+   - vLLM: `vllm serve --help`
+   - SGLang: `python -m sglang.launch_server --help`
 
 6. **Initialize artifacts and logs**:
    - Create `logs/` folder: `mkdir -p logs`
@@ -32,9 +37,10 @@ To set up a new experiment, work with the user to:
    ```
 
 8. **Populate hypothesis backlog with high-impact experiments**:
-   - Run `vllm serve --help` to discover all available parameters
-   - Examine the current `project/edit/serve_config.sh` to see the baseline config
+   - Run the framework's `--help` to discover all available parameters
+   - Examine the active framework's serve config to see the baseline
    - Check `memory/overview.md` for the best known configuration
+   - Read the active framework's search strategy file
    - Identify high-impact parameter changes (quantization, batching, memory, scheduling)
    - Suggest **bold changes first** (quantization, speculative decoding, large batch sizes)
    - Add **quick wins with high priority** (simple flag toggles)
