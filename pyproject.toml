@@ -1,0 +1,13 @@
+[project]
+name = "autooptimizer"
+version = "0.1.0"
+description = "Autonomous vLLM serving parameter optimization via AI agents"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "vllm==0.19.0",
+    "requests>=2.32.0",
+    "numpy>=2.2.0",
+    "pandas>=2.2.0",
+    "matplotlib>=3.9.0",
+]
