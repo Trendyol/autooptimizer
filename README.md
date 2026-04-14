@@ -95,6 +95,21 @@ experiment    score    memory_gb    status    description
 
 Status values: `keep`, `discard`, `crash`
 
+## Roadmap
+
+### Current
+- [x] Autonomous experiment loop with LLM agent
+- [x] vLLM serve parameter tuning (quantization, batching, scheduling, memory)
+- [x] Deterministic benchmarking with fixed seeds
+- [x] Hypothesis backlog with priority-based ordering
+- [x] Automatic keep/revert based on score improvement
+
+### Planned
+- [ ] Multi-framework support (SGLang, TensorRT-LLM, ...) with framework-agnostic benchmark interface
+- [ ] Smarter search — Bayesian optimization, parameter interaction detection, Pareto frontier visualization
+- [ ] Hardware-aware profiles — GPU auto-detection, per-family defaults (A100, H100, L40S, ...)
+- [ ] Production tooling — web dashboard, exportable configs (Docker/K8s), CI/CD integration
+
 ## License
 
 MIT
