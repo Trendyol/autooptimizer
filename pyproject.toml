@@ -1,13 +1,22 @@
 [project]
 name = "autooptimizer"
-version = "0.1.0"
-description = "Autonomous vLLM serving parameter optimization via AI agents"
+version = "0.2.0"
+description = "Autonomous LLM serving parameter optimization via AI agents"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "vllm==0.19.0",
     "requests>=2.32.0",
     "numpy>=2.2.0",
     "pandas>=2.2.0",
     "matplotlib>=3.9.0",
+]
+
+[project.optional-dependencies]
+vllm = ["vllm>=0.19.0"]
+sglang = ["sglang[all]>=0.4.0"]
+dev = ["pytest>=8.0.0"]
+
+[tool.uv]
+conflicts = [
+    [{ extra = "vllm" }, { extra = "sglang" }],
 ]
