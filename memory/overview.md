@@ -18,9 +18,13 @@ DATASET_PATH=
 **DATASET** determines which dataset to use for benchmarking. Supported values:
 - `random` — synthetic random prompts (default, deterministic with fixed seed)
 - `sharegpt` — ShareGPT conversation dataset
-- `custom` — custom JSONL dataset (vLLM only, requires `DATASET_PATH`)
+- `custom` — custom JSONL dataset (requires `DATASET_PATH`)
 
-**DATASET_PATH** is the path to the dataset file. Only needed when `DATASET` is not `random`. For `sharegpt`, point to a ShareGPT JSON file. For `custom`, point to a JSONL file with `{"prompt": "..."}` per line.
+**DATASET_PATH** is the path to the dataset file. Only needed when `DATASET` is not `random`.
+
+JSONL format for `custom` dataset — each line is a JSON object:
+- **vLLM:** `{"prompt": "your prompt text here"}`
+- **SGLang:** `{"conversations": [{"content": "user question"}, {"content": "assistant answer"}]}`
 
 ## Best Known Configuration
 

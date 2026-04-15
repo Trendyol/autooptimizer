@@ -48,6 +48,8 @@ def get_native_benchmark_cmd(
         ]
     elif dataset_name == "sharegpt":
         cmd += ["--sharegpt-output-len", str(output_len)]
+    elif dataset_name == "custom":
+        pass
 
     if dataset_path:
         cmd += ["--dataset-path", dataset_path]
