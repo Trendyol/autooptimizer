@@ -1,5 +1,17 @@
 # Search Strategy (SGLang)
 
+## Official Documentation References
+
+Use these links to look up details on any parameter, feature, or optimization technique:
+
+- **Server Arguments (full flag reference):** https://sgl-project.github.io/advanced_features/server_arguments.html
+- **Hyperparameter Tuning Guide:** https://sgl-project.github.io/advanced_features/hyperparameter_tuning.html
+- **Benchmarking Guide:** https://sgl-project.github.io/developer_guide/bench_serving.html
+- **Quantization:** https://sgl-project.github.io/advanced_features/quantization.html
+- **Speculative Decoding:** https://sgl-project.github.io/advanced_features/speculative_decoding.html
+- **Data Parallelism / Model Gateway:** https://sgl-project.github.io/advanced_features/sgl_model_gateway.html
+- **GitHub Repo (source + latest docs):** https://github.com/sgl-project/sglang
+
 ## Hypothesis Prioritization
 
 Order experiments by expected impact. Use this priority formula:

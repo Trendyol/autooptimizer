@@ -1,4 +1,17 @@
-# Search Strategy
+# Search Strategy (vLLM)
+
+## Official Documentation References
+
+Use these links to look up details on any parameter, feature, or optimization technique:
+
+- **Engine Arguments (full flag reference):** https://docs.vllm.ai/en/stable/configuration/engine_args/
+- **Optimization & Tuning Guide:** https://docs.vllm.ai/en/stable/configuration/optimization/
+- **CLI Reference (`vllm serve`):** https://docs.vllm.ai/en/stable/cli/serve.html
+- **Quantization:** https://docs.vllm.ai/en/stable/quantization/
+- **Speculative Decoding:** https://docs.vllm.ai/en/stable/features/speculative_decoding/
+- **Automatic Prefix Caching:** https://docs.vllm.ai/en/stable/features/automatic_prefix_caching.html
+- **Benchmarking:** https://docs.vllm.ai/en/stable/design/benchmarking/
+- **GitHub Repo (source + latest docs):** https://github.com/vllm-project/vllm
 
 ## Hypothesis Prioritization
 
