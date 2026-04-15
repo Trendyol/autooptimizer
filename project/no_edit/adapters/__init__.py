@@ -36,6 +36,20 @@ def read_framework_from_overview(overview_path: str | None = None) -> str:
     return framework
 
 
+def read_dataset_from_overview(overview_path: str | None = None) -> tuple[str, str | None]:
+    """Return (dataset_name, dataset_path) from overview.md."""
+    path = Path(overview_path) if overview_path else OVERVIEW_PATH
+    text = path.read_text() if path.exists() else ""
+
+    ds_match = re.search(r"^DATASET=(\S+)", text, re.MULTILINE)
+    dataset_name = ds_match.group(1).strip().lower() if ds_match else "random"
+
+    dp_match = re.search(r"^DATASET_PATH=(\S+)", text, re.MULTILINE)
+    dataset_path = dp_match.group(1).strip() if dp_match else None
+
+    return dataset_name, dataset_path
+
+
 def load_adapter(framework: str):
     if framework not in SUPPORTED_FRAMEWORKS:
         print(f"ERROR: Unknown framework '{framework}'.")

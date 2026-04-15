@@ -25,7 +25,7 @@ from typing import Optional
 import requests as http_requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from adapters import read_framework_from_overview, load_adapter
+from adapters import read_framework_from_overview, read_dataset_from_overview, load_adapter
 
 SERVER_PORT = 8000
 SERVER_HOST = "127.0.0.1"
@@ -160,7 +160,8 @@ def detect_model_name() -> Optional[str]:
     return None
 
 
-def run_benchmark(adapter, model_name: str) -> Optional[BenchmarkResult]:
+def run_benchmark(adapter, model_name: str, dataset_name: str = "random",
+                   dataset_path: str | None = None) -> Optional[BenchmarkResult]:
     result_file = getattr(adapter, "RESULT_FILE", RESULT_FILE)
     if os.path.exists(result_file):
         os.remove(result_file)
@@ -174,6 +175,8 @@ def run_benchmark(adapter, model_name: str) -> Optional[BenchmarkResult]:
         seed=BENCHMARK_SEED,
         request_rate=REQUEST_RATE,
         result_filename=result_file,
+        dataset_name=dataset_name,
+        dataset_path=dataset_path,
     )
 
     print(f"Running benchmark ({NUM_PROMPTS} prompts, input={BENCHMARK_INPUT_LEN}, output={BENCHMARK_OUTPUT_LEN})...")
@@ -283,6 +286,7 @@ Examples:
     args = parser.parse_args()
 
     adapter = load_adapter(read_framework_from_overview())
+    dataset_name, dataset_path = read_dataset_from_overview()
 
     if args.command == "wait":
         ok = wait_for_server(adapter)
@@ -302,7 +306,8 @@ Examples:
             print("Could not detect model name. Is the server running? Use --model to specify.")
             sys.exit(1)
         print(f"Model: {model}")
-        result = run_benchmark(adapter, model)
+        print(f"Dataset: {dataset_name}" + (f" ({dataset_path})" if dataset_path else ""))
+        result = run_benchmark(adapter, model, dataset_name, dataset_path)
         if result is None:
             sys.exit(1)
         print()
@@ -317,7 +322,8 @@ Examples:
             print("Could not detect model name. Use --model to specify.")
             sys.exit(1)
         print(f"Model: {model}")
-        result = run_benchmark(adapter, model)
+        print(f"Dataset: {dataset_name}" + (f" ({dataset_path})" if dataset_path else ""))
+        result = run_benchmark(adapter, model, dataset_name, dataset_path)
         if not args.no_kill:
             print()
             kill_server()

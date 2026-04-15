@@ -23,23 +23,36 @@ def get_native_benchmark_cmd(
     seed: int,
     request_rate: str,
     result_filename: str,
+    dataset_name: str = "random",
+    dataset_path: str | None = None,
 ) -> list[str]:
-    return [
+    cmd = [
         sys.executable, "-m", "sglang.bench_serving",
         "--backend", "openai",
         "--base-url", base_url,
         "--model", model,
-        "--dataset-name", "random",
+        "--dataset-name", dataset_name,
         "--num-prompts", str(num_prompts),
-        "--random-input-len", str(input_len),
-        "--random-output-len", str(output_len),
         "--seed", str(seed),
-        "--random-range-ratio", "0.0",
-        "--disable-shuffle",
         "--request-rate", str(request_rate),
         "--save-result",
         "--result-filename", result_filename,
     ]
+
+    if dataset_name == "random":
+        cmd += [
+            "--random-input-len", str(input_len),
+            "--random-output-len", str(output_len),
+            "--random-range-ratio", "0.0",
+            "--disable-shuffle",
+        ]
+    elif dataset_name == "sharegpt":
+        cmd += ["--sharegpt-output-len", str(output_len)]
+
+    if dataset_path:
+        cmd += ["--dataset-path", dataset_path]
+
+    return cmd
 
 
 def parse_native_result(result_file: str, duration: float) -> dict | None:

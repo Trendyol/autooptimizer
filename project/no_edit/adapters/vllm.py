@@ -23,20 +23,18 @@ def get_native_benchmark_cmd(
     seed: int,
     request_rate: str,
     result_filename: str,
+    dataset_name: str = "random",
+    dataset_path: str | None = None,
 ) -> list[str]:
-    return [
+    cmd = [
         sys.executable, "-m", "vllm.entrypoints.cli.main",
         "bench", "serve",
         "--backend", "openai",
         "--base-url", base_url,
         "--model", model,
-        "--dataset-name", "random",
+        "--dataset-name", dataset_name,
         "--num-prompts", str(num_prompts),
-        "--input-len", str(input_len),
-        "--output-len", str(output_len),
         "--seed", str(seed),
-        "--random-range-ratio", "0.0",
-        "--disable-shuffle",
         "--request-rate", request_rate,
         "--save-result",
         "--result-dir", ".",
@@ -44,6 +42,21 @@ def get_native_benchmark_cmd(
         "--percentile-metrics", "ttft,tpot,itl,e2el",
         "--metric-percentiles", "50,99",
     ]
+
+    if dataset_name == "random":
+        cmd += [
+            "--input-len", str(input_len),
+            "--output-len", str(output_len),
+            "--random-range-ratio", "0.0",
+            "--disable-shuffle",
+        ]
+    elif dataset_name == "custom":
+        cmd += ["--custom-output-len", str(output_len)]
+
+    if dataset_path:
+        cmd += ["--dataset-path", dataset_path]
+
+    return cmd
 
 
 def parse_native_result(result_file: str, duration: float) -> dict | None:
