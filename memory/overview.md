@@ -7,11 +7,20 @@ Automated LLM serving parameter optimization using LLM agents.
 ```
 MODEL=Qwen/Qwen3.5-27B-FP8
 FRAMEWORK=vllm
+DATASET=random
+DATASET_PATH=
 ```
 
 **Do NOT change the model.** All experiments must use this exact model. The goal is to find the best serving parameters for this specific model on this specific hardware.
 
 **FRAMEWORK** determines which serving framework to optimize. Supported values: `vllm`, `sglang`.
+
+**DATASET** determines which dataset to use for benchmarking. Supported values:
+- `random` — synthetic random prompts (default, deterministic with fixed seed)
+- `sharegpt` — ShareGPT conversation dataset
+- `custom` — custom JSONL dataset (vLLM only, requires `DATASET_PATH`)
+
+**DATASET_PATH** is the path to the dataset file. Only needed when `DATASET` is not `random`. For `sharegpt`, point to a ShareGPT JSON file. For `custom`, point to a JSONL file with `{"prompt": "..."}` per line.
 
 ## Best Known Configuration
 
