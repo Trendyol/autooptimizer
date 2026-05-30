@@ -1,3 +1,5 @@
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Trendyol/autooptimizer/badge)](https://scorecard.dev/viewer/?uri=github.com/Trendyol/autooptimizer)
 # Autooptimizer
 
 Automated LLM serving parameter optimization using LLM agents.
