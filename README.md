@@ -45,7 +45,10 @@ autooptimizer/
 │           ├── __init__.py
 │           ├── vllm.py
 │           └── sglang.py
-├── artifacts/
+├── tests/                               # Pytest suite
+│   ├── test_adapters.py
+│   └── test_benchmark_routing.py
+├── artifacts/                           # Generated at runtime (not committed)
 │   ├── hypothesis_backlog.tsv           # Experiment queue
 │   └── results.tsv                      # Experiment results log
 ├── pyproject.toml
