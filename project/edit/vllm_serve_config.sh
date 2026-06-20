@@ -20,7 +20,7 @@ vllm serve "$MODEL" \
     --reasoning-parser qwen3 \
     --enable-auto-tool-choice \
     --tool-call-parser qwen3_coder \
-    --speculative-config '{""method"":""mtp"",""num_speculative_tokens"":1}' \
+    --speculative-config '{"method":"mtp","num_speculative_tokens":1}' \
     --enable-chunked-prefill \
     --max-num-batched-tokens 16384 \
     --enable-prefix-caching \
